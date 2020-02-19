@@ -44,9 +44,16 @@ function initiator() {
 
   //phase 2
   submitBtn.addEventListener("click", function() {
-    document.querySelector(".createListContainer").style.display = "flex";
-    document.querySelector(".listAdderContainer").style.display = "none";
-    createList(title.value, `ul+${counter}`);
+    if (title.value.trim() == "") {
+      title.style.borderColor = "red";
+      title.value = "";
+      title.focus();
+    } else {
+      document.querySelector(".createListContainer").style.display = "flex";
+      document.querySelector(".listAdderContainer").style.display = "none";
+      createList(title.value, `ul+${counter}`);
+      title.value = "";
+    }
   });
 
   //close button
@@ -54,6 +61,8 @@ function initiator() {
   closeBtn.addEventListener("click", function() {
     document.querySelector(".createListContainer").style.display = "flex";
     document.querySelector(".listAdderContainer").style.display = "none";
+    title.style.borderColor = "";
+    title.value = "";
   });
 
   //card creation
@@ -95,16 +104,18 @@ function createList(name, divId) {
   closeBtn.className = "btn btn-danger";
   deleteListBtn.className = "btn btn-danger";
   createTaskBtn.className = "btn btn-success";
-
-  // parentContainer.draggable = "true";
-  // parentContainer.addEventListener("drop", function(event){
-  //   drop(event)
+  
+  //handle swap
+  // divWrapper.id = `li+${divId.split("+")[1]}`
+  // divWrapper.draggable = "true";
+  // divWrapper.addEventListener("drop", function(event) {
+  //   drop(event);
   // });
-  // parentContainer.addEventListener("dragover", function(event){
-  //   allowDrop(event)
+  // divWrapper.addEventListener("dragover", function(event) {
+  //   allowDrop(event);
   // });
-  // parentContainer.addEventListener("dragstart", function(event){
-  //   drag(event)
+  // divWrapper.addEventListener("dragstart", function(event) {
+  //   drag(event);
   // });
 
   //phase 1
@@ -136,10 +147,17 @@ function createList(name, divId) {
   taskName.placeholder = "Enter Task Name";
   createTaskBtn.textContent = "Done";
   createTaskBtn.addEventListener("click", function() {
-    addTaskBtn.style.display = "";
-    addTaskContainer.style.display = "none";
-    createTask(parentContainer.id, taskName.value, `task+${taskCounter}`);
-    taskName.value = "";
+    if (taskName.value.trim() == "") {
+      taskName.style.borderColor = "red";
+      taskName.value = "";
+      taskName.focus();
+    }
+    else{
+      addTaskBtn.style.display = "";
+      addTaskContainer.style.display = "none";
+      createTask(parentContainer.id, taskName.value, `task+${taskCounter}`);
+      taskName.value = "";
+    }
   });
   //close button
   closeBtn.innerHTML = "X";
@@ -147,6 +165,7 @@ function createList(name, divId) {
     addTaskBtn.style.display = "";
     addTaskContainer.style.display = "none";
     taskName.value = "";
+    taskName.style.borderColor = "";
   });
 
   //card creation
@@ -180,7 +199,7 @@ function createTask(parent, taskName, divId) {
   let closeBtn = document.createElement("div");
 
   //style
-  parentContainer.className = "sublist";
+  parentContainer.className = "task";
   btnContainer.className = "btnContainer";
   saveBtn.className = "btn btn-success";
   saveBtn.style.display = "none";
@@ -190,14 +209,15 @@ function createTask(parent, taskName, divId) {
 
   //phase 1
   parentContainer.id = divId;
+  //handle swap
   parentContainer.draggable = "true";
-  parentContainer.addEventListener("drop", function(event) {
+  parentContainer.addEventListener("drop", function() {
     drop(event);
   });
-  parentContainer.addEventListener("dragover", function(event) {
+  parentContainer.addEventListener("dragover", function() {
     allowDrop(event);
   });
-  parentContainer.addEventListener("dragstart", function(event) {
+  parentContainer.addEventListener("dragstart", function() {
     drag(event);
   });
 
@@ -216,10 +236,17 @@ function createTask(parent, taskName, divId) {
   //save
   saveBtn.innerHTML = "Save";
   saveBtn.addEventListener("click", function() {
-    title.contentEditable = false;
-    saveBtn.style.display = "none";
-    editBtn.style.display = "";
-    closeBtn.style.display = "";
+    if (title.innerHTML.trim() == "") {
+      title.style.borderColor = "red";
+      title.value = "";
+      title.focus();
+    }
+    else{
+      title.contentEditable = false;
+      saveBtn.style.display = "none";
+      editBtn.style.display = "";
+      closeBtn.style.display = "";
+    }
   });
 
   //delete
