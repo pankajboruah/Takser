@@ -1,5 +1,5 @@
 import { allowDrop, drag, drop } from "./drag";
-import { saveData, loadData } from "./retainData"
+import { saveData, loadData } from "./retainData";
 
 let counter = 0;
 let taskCounter = 0;
@@ -28,8 +28,8 @@ function initiator() {
   parentContainer.className = "parentContainer col-sm-2";
   divWrapper.className = "createListContainer";
   listAdder.className = "listAdderContainer";
-  title.style.overflow = "hidden";
-  title.style.wordWrap = "break-word";
+  btnContainer.className = "btnContainer";
+  title.className = "title";
   title.placeholder = "List Name";
   submitBtn.innerHTML = "Done";
   submitBtn.className = "btn btn-success";
@@ -43,12 +43,10 @@ function initiator() {
   });
 
   //phase 2
-  //btnContainer.className = "btnContainer";
   submitBtn.addEventListener("click", function() {
     document.querySelector(".createListContainer").style.display = "flex";
     document.querySelector(".listAdderContainer").style.display = "none";
     createList(title.value, `ul+${counter}`);
-    // console.log(title.value)
   });
 
   //close button
@@ -88,14 +86,14 @@ function createList(name, divId) {
   //style
   parentContainer.id = divId;
   parentContainer.className = "parentContainer col-sm-2";
-  title.style.overflow = "hidden";
-  title.style.wordWrap = "break-word";
-  addTaskBtn.className = "btn btn-success";
+  addTaskContainer.className = "addTaskContainer";
   headerContainer.className = "headerContainer";
+  btnContainer.className = "btnContainer";
   divWrapper.className = "list";
+  title.className = "title";
+  addTaskBtn.className = "btn btn-success";
   closeBtn.className = "btn btn-danger";
   deleteListBtn.className = "btn btn-danger";
-  addTaskContainer.className = "addTaskContainer";
   createTaskBtn.className = "btn btn-success";
 
   // parentContainer.draggable = "true";
@@ -132,25 +130,24 @@ function createList(name, divId) {
     //saving to local storage
     let deletedId = deleted.id.toString();
     delete listObj[deletedId];
-    console.log("after delete ", listObj);
   });
 
   //phase 2
   taskName.placeholder = "Enter Task Name";
-  taskName.value = "";
   createTaskBtn.textContent = "Done";
   createTaskBtn.addEventListener("click", function() {
     addTaskBtn.style.display = "";
     addTaskContainer.style.display = "none";
     createTask(parentContainer.id, taskName.value, `task+${taskCounter}`);
+    taskName.value = "";
   });
   //close button
   closeBtn.innerHTML = "X";
   closeBtn.addEventListener("click", function() {
     addTaskBtn.style.display = "";
     addTaskContainer.style.display = "none";
+    taskName.value = "";
   });
-  //btnContainer.className = "btnContainer";
 
   //card creation
   headerContainer.appendChild(title);
@@ -170,24 +167,28 @@ function createList(name, divId) {
 }
 
 function createTask(parent, taskName, divId) {
-  // taskArray.push(taskCounter);
+  // save to local storage
   taskObj[divId] = `${parent}-${taskName}`;
-  console.log("task add", taskObj);
 
-  // let divWrapper = document.createElement("div");
-  // let editContainer = document.createElement("div");
-  // let editTitle = document.createElement("div");
+  //containers
   let parentContainer = document.createElement("div");
   let btnContainer = document.createElement("div");
+  //elements
   let title = document.createElement("div");
   let saveBtn = document.createElement("div");
-  let submitBtn = document.createElement("div");
+  let editBtn = document.createElement("div");
   let closeBtn = document.createElement("div");
+
+  //style
+  parentContainer.className = "sublist";
+  btnContainer.className = "btnContainer";
+  saveBtn.className = "btn btn-success";
   saveBtn.style.display = "none";
+  editBtn.className = "btn btn-default glyphicon glyphicon-pencil";
+  closeBtn.className = "btn btn-danger";
+  title.className = "title";
 
   //phase 1
-  btnContainer.className = "btnContainer";
-  parentContainer.className = "sublist";
   parentContainer.id = divId;
   parentContainer.draggable = "true";
   parentContainer.addEventListener("drop", function(event) {
@@ -200,21 +201,15 @@ function createTask(parent, taskName, divId) {
     drag(event);
   });
 
-  // console.log(parentContainer.id);
-  // divWrapper.className = "sublist";
   title.innerHTML = taskName;
-  submitBtn.className = "btn btn-default glyphicon glyphicon-pencil";
-  closeBtn.className = "btn btn-danger";
   closeBtn.innerHTML = "X";
 
   //edit
-  title.style.overflow = "hidden";
-  title.style.wordWrap = "break-word";
-  submitBtn.addEventListener("click", function() {
+  editBtn.addEventListener("click", function() {
     title.contentEditable = true;
     // btnContainer.style.display = "none";
     saveBtn.style.display = "";
-    submitBtn.style.display = "none";
+    editBtn.style.display = "none";
     closeBtn.style.display = "none";
     title.focus();
   });
@@ -223,26 +218,23 @@ function createTask(parent, taskName, divId) {
   saveBtn.addEventListener("click", function() {
     title.contentEditable = false;
     saveBtn.style.display = "none";
-    submitBtn.style.display = "";
+    editBtn.style.display = "";
     closeBtn.style.display = "";
-    // btnContainer.style.display = "none";
   });
 
   //delete
   closeBtn.addEventListener("click", function() {
-    // document.getElementById(parent).childNodes[0].childNodes[0].removeChild(closeBtn.parentNode);
     let deleted = closeBtn.parentElement.parentElement.removeChild(
       closeBtn.parentNode
     );
-    // taskArray.splice( taskArray.indexOf(Number(deleted.id.split('+')[1])), 1 );
+
+    //save to local storage
     delete taskObj[deleted.id];
-    console.log("task del", taskObj);
   });
 
   //phase 2
-  saveBtn.className = "btn btn-success";
   parentContainer.appendChild(title);
-  parentContainer.appendChild(submitBtn);
+  parentContainer.appendChild(editBtn);
   parentContainer.appendChild(closeBtn);
   parentContainer.appendChild(saveBtn);
   document
