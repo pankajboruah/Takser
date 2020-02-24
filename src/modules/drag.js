@@ -10,22 +10,16 @@ function drop(ev) {
     let counter = 0;
     ev.preventDefault();
     let data = ev.dataTransfer.getData("text");
-    let elType1 = ev.target.id.split("+")[0];
+    let elType1 = ev.currentTarget.id.split("+")[0];
     let elType2 = data.split("+")[0];
-    console.log(elType1, elType2);
     if (elType1 === elType2) {
-        console.log(counter++);
-        swapElements(document.getElementById(data), ev.target);
+        swapElements(document.getElementById(data), ev.currentTarget);
     }
 }
 
 function swapElements(obj1, obj2) {
-    //   let counter = 0;
-    //   console.log(counter++);
     let parent2 = obj2.parentNode;
     let next2 = obj2.nextSibling;
-    console.log("parent", parent2);
-    console.log("sibling", next2);
     if (next2 === obj1) {
         parent2.insertBefore(obj1, obj2);
     } else {

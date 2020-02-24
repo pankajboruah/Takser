@@ -4,9 +4,6 @@ import { save, loadData } from "./retainData";
 let counter = 0;
 let taskCounter = 0;
 
-let taskObj = {};
-let listObj = {};
-
 function initiator() {
     //add save and load
     window.addEventListener("beforeunload", function() {
@@ -54,7 +51,9 @@ function initiator() {
                 "flex";
             document.querySelector(".listAdderContainer").style.display =
                 "none";
-            createList(title.value, counter);
+            document
+                .getElementById("app")
+                .appendChild(createList(title.value, counter));
             title.value = "";
         }
     });
@@ -112,16 +111,16 @@ function createList(name, divId) {
     deleteListBtn.setAttribute("parentContainer", parentContainer.id);
     //handle swap
     // divWrapper.id = `li+${divId.split("+")[1]}`
-    // divWrapper.draggable = "true";
-    // divWrapper.addEventListener("drop", function(event) {
-    //   drop(event);
-    // });
-    // divWrapper.addEventListener("dragover", function(event) {
-    //   allowDrop(event);
-    // });
-    // divWrapper.addEventListener("dragstart", function(event) {
-    //   drag(event);
-    // });
+    parentContainer.draggable = "true";
+    parentContainer.addEventListener("drop", function(event) {
+        drop(event);
+    });
+    parentContainer.addEventListener("dragover", function(event) {
+        allowDrop(event);
+    });
+    parentContainer.addEventListener("dragstart", function(event) {
+        drag(event);
+    });
 
     //phase 1
     title.innerHTML = name;
@@ -179,9 +178,9 @@ function createList(name, divId) {
 
     parentContainer.appendChild(divWrapper);
     parentContainer.appendChild(addTaskContainer);
-    document.getElementById("app").appendChild(parentContainer);
+    //document.getElementById("app").appendChild(parentContainer);
     counter++;
-    return;
+    return parentContainer;
 }
 
 function createTask(parent, taskName, divId) {
@@ -210,18 +209,28 @@ function createTask(parent, taskName, divId) {
 
     //handle swap
     parentContainer.draggable = "true";
-    parentContainer.addEventListener("drop", function() {
+    parentContainer.addEventListener("drop", function(event) {
+        // console.log('drop event', event.currentTarget)
         drop(event);
     });
-    parentContainer.addEventListener("dragover", function() {
+    parentContainer.addEventListener("dragover", function(event) {
         allowDrop(event);
     });
-    parentContainer.addEventListener("dragstart", function() {
+    parentContainer.addEventListener("dragstart", function(event) {
         drag(event);
     });
 
     title.innerHTML = taskName;
     closeBtn.innerHTML = "X";
+
+    //event delegation
+    parentContainer.addEventListener("click", function(event) {
+        let target = event.target; // where was the click?
+
+        if (target.tagName != "DIV") return; // not on TD? Then we're not interested
+
+        console.log(target); // highlight it
+    });
 
     //edit
     editBtn.addEventListener("click", function() {
