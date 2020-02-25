@@ -1,6 +1,13 @@
-// import { createList } from "./createList";
-// import { createTask } from "./createTask";
-import { createList, createTask } from "./create"
+import { createList, taskCounter } from "./createList";
+import { counter } from "./create";
+import { createTask } from "./createTask";
+
+function loadCounters() {
+    return {
+        listCount: JSON.parse(localStorage.getItem("listCount")),
+        taskCount: JSON.parse(localStorage.getItem("taskCount"))
+    };
+}
 function loadData() {
     let board = JSON.parse(localStorage.getItem("board"));
     board.forEach(list => {
@@ -21,6 +28,8 @@ function loadData() {
 }
 
 function save() {
+    localStorage.setItem("listCount", JSON.stringify(counter));
+    localStorage.setItem("taskCount", JSON.stringify(taskCounter));
     let board = [];
     const obj = {
         id: "",
@@ -34,7 +43,7 @@ function save() {
     };
     let elems = document.getElementsByTagName("*");
     let elem = [...elems];
-    let counter = 0;
+    let count = 0;
     elem.forEach(el => {
         if (el.id && el.getAttribute("title")) {
             if (el.getAttribute("type") === "list") {
@@ -43,13 +52,13 @@ function save() {
                 newList.title = el.getAttribute("title");
                 newList.tasks = [];
                 board.push(newList);
-                counter++;
+                count++;
             } else {
                 const newTask = Object.create(task);
                 newTask.id = el.id.split("+")[1];
                 newTask.title = el.getAttribute("title");
                 newTask.parent = getParentHasId(el);
-                board[counter - 1].tasks.push(newTask);
+                board[count - 1].tasks.push(newTask);
             }
         }
     });
@@ -63,4 +72,4 @@ function getParentHasId(el) {
         return getParentHasId(el.parentNode);
     }
 }
-export { loadData, save };
+export { loadData, save, loadCounters };
