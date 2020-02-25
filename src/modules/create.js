@@ -80,4 +80,4 @@ function initiator() {
     return;
 }
 
-export { initiator, counter };
+export { initiator };

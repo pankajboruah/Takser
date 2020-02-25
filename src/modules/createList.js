@@ -112,4 +112,4 @@ function createList(name, divId) {
     return parentContainer;
 }
 
-export { createList, taskCounter };
+export { createList };
