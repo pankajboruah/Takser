@@ -153,7 +153,14 @@ function createList(name, divId) {
         } else {
             addTaskBtn.style.display = "";
             addTaskContainer.style.display = "none";
-            createTask(parentContainer.id, taskName.value, taskCounter);
+            // console.log("hey", parentContainer.id);
+            document
+                .getElementById(parentContainer.id)
+                .firstElementChild.insertBefore(
+                    createTask(taskName.value, taskCounter),
+                    document.getElementById(parentContainer.id).firstElementChild
+                        .lastElementChild
+                );
             taskName.value = "";
         }
     });
@@ -183,7 +190,7 @@ function createList(name, divId) {
     return parentContainer;
 }
 
-function createTask(parent, taskName, divId) {
+function createTask(taskName, divId) {
     //containers
     let parentContainer = document.createElement("div");
     let btnContainer = document.createElement("div");
@@ -270,14 +277,8 @@ function createTask(parent, taskName, divId) {
     parentContainer.appendChild(editBtn);
     parentContainer.appendChild(closeBtn);
     parentContainer.appendChild(saveBtn);
-    document
-        .getElementById(parent)
-        .firstElementChild.insertBefore(
-            parentContainer,
-            document.getElementById(parent).firstElementChild.lastElementChild
-        );
     taskCounter++;
-    return;
+    return parentContainer;
 }
 
 export { initiator, createList, createTask };

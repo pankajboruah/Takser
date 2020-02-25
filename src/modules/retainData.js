@@ -1,17 +1,27 @@
-import { createList, createTask } from "./create";
+// import { createList } from "./createList";
+// import { createTask } from "./createTask";
+import { createList, createTask } from "./create"
 function loadData() {
     let board = JSON.parse(localStorage.getItem("board"));
     board.forEach(list => {
         let tasks = list.tasks;
-        document.getElementById("app").appendChild(createList(list.title, list.id));
+        document
+            .getElementById("app")
+            .appendChild(createList(list.title, list.id));
         tasks.forEach(task => {
-            createTask(task.parent, task.title, task.id);
+            document
+                .getElementById(task.parent)
+                .firstElementChild.insertBefore(
+                    createTask(task.title, task.id),
+                    document.getElementById(task.parent).firstElementChild
+                        .lastElementChild
+                );
         });
     });
 }
 
 function save() {
-    let board = []
+    let board = [];
     const obj = {
         id: "",
         title: "",
@@ -24,7 +34,7 @@ function save() {
     };
     let elems = document.getElementsByTagName("*");
     let elem = [...elems];
-    let counter = 0; 
+    let counter = 0;
     elem.forEach(el => {
         if (el.id && el.getAttribute("title")) {
             if (el.getAttribute("type") === "list") {
@@ -39,7 +49,7 @@ function save() {
                 newTask.id = el.id.split("+")[1];
                 newTask.title = el.getAttribute("title");
                 newTask.parent = getParentHasId(el);
-                board[counter-1].tasks.push(newTask);
+                board[counter - 1].tasks.push(newTask);
             }
         }
     });
