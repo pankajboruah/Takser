@@ -38,6 +38,7 @@ function initiator() {
     divWrapper.addEventListener("click", function() {
         document.querySelector(".createListContainer").style.display = "none";
         document.querySelector(".listAdderContainer").style.display = "flex";
+        title.focus();
     });
 
     //phase 2

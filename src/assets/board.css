@@ -1,3 +1,7 @@
+#my-board {
+	display: flex;
+	flex-wrap: wrap;
+}
 html {
 	height: 100%;
 }
@@ -9,10 +13,6 @@ body {
 footer {
 	position: absolute;
 	bottom: 0px;
-}
-#app {
-	display: flex;
-	flex-wrap: wrap;
 }
 
 .createListContainer {
@@ -100,5 +100,5 @@ input {
 	border-radius: 3px;
 }
 /* .button:hover {
-  background-color: #f5f5f0;
-} */
+    background-color: #f5f5f0;
+  } */

@@ -1,24 +1,24 @@
 {
-  "name": "js-application",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "local": "nodemon ./dist/main.js",
-    "babel": "./node_modules/.bin/babel src -d dist",
-    "start": "parcel index.html --open",
-    "build": "parcel build index.html"
-  },
-  "author": "Pankaj Boruah",
-  "license": "ISC",
-  "dependencies": {
-    "nodemon": "^2.0.2"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
-    "parcel-bundler": "^1.6.1"
-  }
+	"name": "js-application",
+	"version": "1.0.0",
+	"description": "",
+	"main": "main.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"local": "nodemon ./dist/main.js",
+		"babel": "./node_modules/.bin/babel src -d dist",
+		"start": "rm -rf dist && parcel index.html --open",
+		"build": "rm -rf dist && parcel build index.html"
+	},
+	"author": "Pankaj Boruah",
+	"license": "ISC",
+	"dependencies": {
+		"nodemon": "^2.0.2"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.8.4",
+		"@babel/core": "^7.8.4",
+		"@babel/preset-env": "^7.8.4",
+		"parcel-bundler": "^1.6.1"
+	}
 }

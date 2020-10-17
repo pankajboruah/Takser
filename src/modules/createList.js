@@ -55,6 +55,7 @@ function createList(name, divId) {
     addTaskBtn.addEventListener("click", function() {
         addTaskBtn.style.display = "none";
         addTaskContainer.style.display = "flex";
+        taskName.focus();
     });
 
     //delete list
